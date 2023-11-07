@@ -1,0 +1,17 @@
+{
+  "name": "jest",
+  "version": "1.0.0",
+  "description": "learning jest testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Obito",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "@types/jest": "^29.5.7"
+  }
+}
