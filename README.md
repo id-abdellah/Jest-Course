@@ -342,6 +342,7 @@ describe("checking for name validation", () => {
 العكس هو ال <i>skip</i> ولي تاهي كدار لل test or describe غار هادي كدير test لغااع ال blocks لوخرين وكتجاهل لي درتي ليهم skip
 
 ```js
+// a
 /* هاد الديسكرايب بوحدو لي غيدار ليه التيست */
 describe.only("first nested describe", () => {
     
@@ -403,5 +404,143 @@ beforeEach(() => {
 afterAll(() => {
     // Clean database
     // Clean cash
+})
+```
+
+<br>
+<br>
+
+<h1>Jest Matchers</h1>
+
+<br>
+<br>
+
+بالنسبة لل matchers ف هوما لي كيكونو مورا ال expect 
+
+ودبا حنا من لول عارفين غا toBe ولي هو matcher
+
+فهاد الدرس شفنا تقريبا شي جوج matchers جداد لي هوما toHaveLength, toContain وشفنا تا كيفاش ننفيو ال matchers باستخدام ال not
+
+```js
+/* matchers.js */
+const myData = [5, 2, 3, 4, 5, 5];
+module.exports = myData;
+```
+
+```js
+/* matchers-p1.test.js */
+
+const myArrayData = require("../matchers");
+
+// toBe هو لي عطيناه اولا لا كنستخدمو array length دبا مثلا الطريقة الولة باش واش بصح
+test("check length of array", () => {
+    expect(myArrayData.length).toBe(6)
+})
+
+// toHaveLength سميتو matcher باش نديرو نفس الوظيفة الفوق كاين
+test("check length of array", () => {
+    expect(myArrayData).toHaveLength(6)
+})
+
+test("check length of array", () => {
+    expect("Mohamed").toHaveLength(7)
+})
+
+
+/* -------------------------------------------------- */
+
+// ومثلا بغينا نديرو تيست واش شي عنصر كاين فالمصفوفة
+
+test("check if an element is exist", () => {
+    expect(myArrayData).toContain(3)
+})
+
+test("check if an element is exist", () => {
+    expect("Mohamed").toContain("M")
+})
+
+/* -------------------------------------------------- */
+
+// matcher فهي كتنفي اي not اما بالنسبة لل
+
+
+test("check if an element is exist", () => {
+    expect(myArrayData).not.toContain(100)
+})
+
+test("check if an element is exist", () => {
+    expect("Mohamed").not.toContain("G")
+})
+
+// 0 مثلا تجرب بيه واش غا عناصر المصفوفة مفيهاش loop ويمكن ليك تا دير
+
+test("using for loop", () => {
+    for (let i = 0; i < myArrayData.length; i++) {
+        expect(myArrayData[i]).not.toBe(0)
+    }
+})
+```
+
+الدرس الثاني شفنا فيه شي matchers اخرين كيتلخصو فيما يلي
+
+```js
+const myArrayData = require("../matchers");
+// دبا مثلا بغينا نديرو شيك واش غاع عناصر المصفوفة ارقام وفيهاش ولا حرف
+
+// الطريقة اللولة
+test("check if all number is numbers, 1st method", () => {
+    for (let i = 0; i < myArrayData.length; i++) {
+        expect(isNaN(myArrayData[i])).toBe(false)
+    }
+})
+
+// toBeFalsy matcher الطريقة الثانية باستعمال
+test("check if all number is numbers 2st method", () => {
+    for (let i = 0; i < myArrayData.length; i++) {
+        expect(isNaN(myArrayData[i])).toBeFalsy()
+    }
+})
+
+// toBeTruthy الطريقة الثالثة باستعمال
+test("check if all number is numbers 2st method", () => {
+    for (let i = 0; i < myArrayData.length; i++) {
+        expect(isNaN(myArrayData[i])).not.toBeTruthy()
+    }
+})
+
+/*
+    اخرا خاصة بمقارنة الاعداد matchers كاينة
+
+    1 - toBeGreaterThan()
+    2 - toBeGreaterThanOrEqual()
+    3 - toBeLessThan()
+    4 - toBeLessThanOrEqual()
+*/
+```
+
+الدرس الثالث شفنا فيه شوية matchers اخرين ولي هوما كالتالي
+
+```js
+const arrayData = require("../matchers");
+
+// check fo undefined
+test("check of undefined", () => {
+    let a;
+    expect(a).toBeUndefined()
+})
+
+// match RegEx
+test("regex", () => {
+    let msg = "i am moha an iam moroccan";
+    expect(msg).toMatch(/moha/)
+})
+
+// check for obj property
+test("regex", () => {
+    let obj = {
+        theName: "mohamed",
+        age: 200,
+    };
+    expect(obj).toHaveProperty("age", 200)
 })
 ```
