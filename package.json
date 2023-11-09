@@ -13,5 +13,8 @@
   },
   "dependencies": {
     "@types/jest": "^29.5.7"
+  },
+  "jest": {
+    "collectCoverage": true
   }
 }

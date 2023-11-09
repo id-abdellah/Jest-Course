@@ -22,6 +22,12 @@ function filterName(name = "unknown") {
         }
         name = name.slice(indexOfFirstLetter);
     }
+    if (name == "hell") {
+        throw Error("unwanted name")
+    }
+    if (name == "fuck") {
+        throw Error("also unwanted name")
+    }
     return name;
 }
 

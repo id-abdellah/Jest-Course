@@ -640,3 +640,133 @@ test("testing my toBeInRange matcher", () => {
     expect(20).toBeInRange({ min: 10, max: 50 })
 })
 ```
+
+
+<br>
+<br>
+
+<h1>Expect.anyThing - any - arrayContaining</h1>
+
+<br>
+<br>
+
+فهاد الدرس شفنا شوية methods خاصة بال expect ولي كيخدمو مع ال toEqual matcher
+
+اللول هو expect.anyThing ولي كتوقع اي شي من ال received من غير ال undefined and null
+
+الثاني هو expect.any(constructor) ولي بحالا كتقوليه بلي توقع بلي ال received غيكون هاد النوع ديال البيانات, و كتعطيها ال constructor data ك argument
+
+الثالث هو expect.arrayContaining(array) ولي كتشوف واش العناصر لي فالمصفوفة لي عطيتيها كاينين فالمصفوفة المستلمة
+
+```js
+const oldArray = require("../matchers");
+
+/*
+    expect.anyThing()
+
+    toEqual matcher كيخدمو مع ال expect methods ال
+    null & undefined ولي كتعني بلي كتقوليه توقع ايي شيء. باستثناء ال
+*/
+
+test("expect anything expect null or undefined", () => {
+    expect(10).toEqual(expect.anything())
+    expect("mohamed").toEqual(expect.anything())
+    expect([1, 2, 3, 4, 5, 6]).toEqual(expect.anything())
+})
+
+
+
+/*
+    expect.any(constructor)
+
+    لي غنعطيك constructor جا من ال receinved فبحالا كتقوليه شوف واش ال constructor. ولي كتقبل
+    غيكون هاد النوع ديال البيانات received بمعني اخر بحلا كتقوليه شوف واش ال
+*/
+test("expect any, constructor", () => {
+    expect(10).toEqual(expect.any(Number))
+
+    expect("hello").toEqual(expect.any(String))
+
+    expect([1, 2, 3, 4, 5]).toEqual(expect.any(Array))
+
+    expect({ a: 1, b: 2 }).toEqual(expect.any(Object))
+})
+
+
+/*
+    expect.arrayContaining(array)
+
+    array كتقبل method هاد ال
+    الوظيفة ديالها انك كتعطيها مصفوفة و كتقارن واش العناصر لي فيها كاينين تا فال المصفوفة المستلمة
+*/
+test("expect arrayContainin(array)", () => {
+    expect([1, 2, 3, 4, 5, 6]).toEqual(expect.arrayContaining([5, 6, 2]));
+    expect(["a", "B", "A"]).toEqual(expect.arrayContaining(["B"]));
+})
+```
+
+
+<br>
+<br>
+
+<h1>Code Coverage</h1>
+
+<br>
+<br>
+
+دبا مثلا عند function ديرتي لي شي tests من قبل 
+
+و جيتي دبا ومشيتي لديك ال function وزدتي فيها condition جديد. فملي كدير تيست, كيديرو على على داكشي لي عطيتي ليه فلول اما داكشي الجديد مكينبهكش عليه
+
+لهذا كاينة خاصية ال code coverage ولي فاش كدير تيست كينشء ليك ملف فيه رابور من ضمنو داكشي لي مدرتيش ليه تغطية, بحال شي condition جديد
+
+
+الطريقة اليدوية هي انك فكل مرة خاص دير هاد الكود فال terminal
+
+```
+npm test -- --coverage
+```
+
+اما الطريقة الناضية ولي كيدير ليه تغطية للكود كل مرة دير npm test. وهي انك ضيف هاد الخصائص فال package.json
+
+```json
+"jest": {
+    "collectCoverage": true
+}
+```
+
+
+<br>
+<br>
+
+<h1>Mock functions</h1>
+
+<br>
+<br>
+
+صراحة هادا موضوع شوية معقد غنخليه تالمنبعد ونتعمق فيه
+
+ولكن يكفي تشوف الكود التحت باش تاخد فكرة
+
+```js
+/* mock.js */
+function sayHello(name) {
+    return `hello ${name}`
+}
+
+/* mock.test.js */
+const sayHello = require("../mock");
+
+test("Mock function", () => {
+    const moker = jest.fn(sayHello);
+    expect(moker("osama")).toBe("hello osama")
+    expect(moker("ahmed")).toBe("hello ahmed")
+    expect(moker("mohamed")).toBe("hello mohamed")
+
+    expect(moker).toHaveBeenCalled(); // واش الفانكشن تم الاستدعاء ديالها اصلا
+    expect(moker).toHaveBeenCalledTimes(3); // واش هاد الفانكشن تنادات هاد العدد من المرات
+    expect(moker).toHaveBeenCalledWith("ahmed"); // واش الفانكشن تنادات شي مرة بحال الارغ
+    expect(moker).toHaveBeenLastCalledWith("mohamed"); // واش الفانكشن اخر مرة تنادات بهاد الارغ
+    expect(moker).toHaveBeenNthCalledWith(2, "ahmed"); // واش الفانكشن فاش تنادات المرة التانية واش بهاد الارغ
+})
+```
